@@ -11,12 +11,12 @@ class PagePrincipal extends Component {
          <div>
            <div>
             <CabeceraPags />
-           </div>
-          <div>
-              <MenuHorizontal />
-          </div>
+           </div>          
           <div>
               <Content />
+          </div>
+          <div>
+              <MenuHorizontal />
           </div>
           <div>
               <PiePagina />

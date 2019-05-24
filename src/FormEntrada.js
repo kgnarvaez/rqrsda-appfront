@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import { useAsync } from "react-async"
 import './App.css';
 import './Division_pags.css';
-import PagePrincipal from './PagePrincipal';
-import { async } from 'q';
+import logo from './logo_RQRSDA.png';
+import Titulo from './Titulo';
+
+
 
 
 
@@ -25,85 +25,105 @@ class FormEntrada extends Component{
     let isValid = this.isValid;
     let formsError = {};
 
-        if(!courriel){
-            formsError["courriel"] = "Cannot be empty";
+        if((!courriel) && (!motPasse)){
+            formsError["courriel"] = "Il ne peut pas etre vide";
+            formsError["motPasse"] = "Il ne peut pas etre vide";
             this.setState({formsError: formsError});
             return false;
           
         }
-        if(!motPasse){
-            formsError["motPasse"] = "Cannot be empty";
+        else if(!motPasse){
+            formsError["motPasse"] = "Il ne peut pas etre vide";
             this.setState({formsError: formsError});
             return false;
+        }
+        else if(!courriel) {
+            formsError["motPasse"] = "Il ne peut pas etre vide";
+            this.setState({formsError: formsError});
+            return false;
+
         }
        // this.setState(isValid:true);
         isValid= true;
         return isValid;
    
    }
+ 
 
    async fetchPost(){
-    const response = await fetch('http://localhost:3011/credential', {
-                    crossDomain:true,
+        const response = await fetch('http://localhost:3011/credential', {
                     method: "POST",
-                    mode: 'cors',
-                    body: JSON.stringify(this.state),
                     headers: {
-                        // 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                            'Content-Type' : 'application/json'}
-                    })
-                    .then (res => res.statusText);
-        if (!response.ok){
-            return (response.statusText);
-        }
-        else{
-            return response.json;
-        }
+                        Accept: 'application/json',
+                                'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(this.state)})
+                   //.catch(error => error);
+    
+        //const json = await response.json();
+       // console.log("Log aysnc : " + response.status);
+        return response;
          
     }       
 
-
     
-    handleSubmit= (e) => {
-        e.preventDefault();
+    handleSubmit = async (e) => {
+         e.preventDefault();
         if (this.handleValidation()){
-            var respuesta= this.fetchPost();
-            console.log(respuesta.status);
+            var respuesta = await this.fetchPost();
+            if (respuesta.status === 200){
+               console.log('si esta');
+              this.props.history.push('/PagePrincipal') 
+            }
+            else{
+                console.log(this.props.FormEntrada);
+                this.props.history.push('/error') 
+            }
+            
             
         }else{
             alert("Le nom d'utilisateur ou le mot de passé n'est pas correct.");         
         }      
     } 
-        
+      
     render(){
        
         return (
-            <form name="App-form" className="App-form" onSubmit= {this.handleSubmit.bind()}>
+ <div>
+        <div>
+            <Titulo/>
+        </div>
+        <div className="App-logo">
+            <img src={logo} className="App-logo" alt="logo" /> 
+        </div>
+        <div>
+            <form className="form-1" onSubmit= {this.handleSubmit}>
                 <div>
-                    <label>Courriel</label>
-                    <div>
-                        <input className = "" 
-                        ref = "courriel"
-                        type = "text"
+                    <p className="field">
+                        <input type="text" 
+                        ref="courriel" 
+                        placeholder="Courriel"
                         value={this.state.courriel}
                         onChange={evt => this.setState({ courriel: evt.target.value })}/>
                         <span style={{color: "red"}}>{this.state.formsError["courriel"]}</span>
-                    </div>
-                    <label>Mot Passe </label>
-                    <div>
-                        <input className = "" 
-                        ref = "mot passe"
-                        type = "text"
+                    </p>
+                    <p  className="field">
+                        <input type="text"
+                        ref="motPasse" 
+                        placeholder="Mot Passe"
                         onChange={evt => this.setState({ motPasse: evt.target.value })}/> 
                         <span style={{color: "red"}}>{this.state.formsError["motPasse"]}</span>
-                    </div>
-                    <div>
-                        <button >connexion</button>
-                    </div>
+                    </p>
+                    <p > 
+                        <button> Login
+                        </button>
+                    </p>
                 </div>
             </form>
+        </div>
+        </div>
         )
     }
 }
 
-export default FormEntrada;
+export default (FormEntrada) ;

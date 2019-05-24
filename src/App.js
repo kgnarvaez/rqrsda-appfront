@@ -1,21 +1,25 @@
 import React, { Component } from 'react';
-import logo from './logo_RQRSDA.png';
-import './App.css';
+import {Route, Switch, BrowserRouter as Router  } from 'react-router-dom'
+import PagePrincipal from './PagePrincipal';
 import FormEntrada from './FormEntrada';
-import Titulo from './Titulo';
-
+import NouveauEmploye from './nouveauEmploye';
 
 
 class App extends Component { 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <Titulo/>
-          <img src={logo} className="App-logo" alt="logo" /> 
-          <FormEntrada />
-        </header>
-      </div>
+
+    <div>  
+      <div >
+        <Router>
+           <Switch>
+              <Route exact path="/" component={FormEntrada} />
+              <Route path="/PagePrincipal" component={PagePrincipal} />
+              <Route path="/NouveauEmploye" component={NouveauEmploye} />
+            </Switch>
+        </Router>
+      </div>       
+    </div>
     );
   }
 }

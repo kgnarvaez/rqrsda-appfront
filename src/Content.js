@@ -9,9 +9,8 @@ class Content extends Component{
         <div className="Division-Content">
             <p className="Division-P">
                 La mission RQRSDA et des autres membres de l’association est de permettre la création ou le maintien du lien parent-enfant dans un milieu neutre, familial et harmonieux.
-            </p>
-            <p className="Division-P">
-                Le RQRSDA permet la création et le maintien de la relation parent-enfant 
+                
+                Elle permet la création et le maintien de la relation parent-enfant 
                 lorsqu’un droit d’accès est interrompu, difficile ou trop conflictuel suite à 
                 une séparation, un divorce ou toute autre raison majeure. Il offre aux familles 
                 un endroit neutre  et sécuritaire , pour l’exercice de ce droit d’accès 
